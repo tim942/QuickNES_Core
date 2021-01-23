@@ -24,7 +24,7 @@
 #define CORE_VERSION "1.0-WIP"
 
 #define NES_4_3 (4.0 / 3.0)
-#define NES_PAR (width * (8.0 / 7.0) / height)
+#define NES_PAR ((width * (8.0 / 7.0)) / (height * (256.0 / 240.0)))
 
 static Nes_Emu *emu;
 
