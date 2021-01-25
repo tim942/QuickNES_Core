@@ -645,7 +645,7 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-     int last_aspect_ratio_par = aspect_ratio_par;
+     last_aspect_ratio_par = aspect_ratio_par;
      if (!strcmp(var.value, "PAR")) {
        aspect_ratio_par = 1;
      } else if (!strcmp(var.value, "4:3")) {
