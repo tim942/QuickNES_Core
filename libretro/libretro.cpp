@@ -35,8 +35,8 @@ static retro_audio_sample_batch_t audio_batch_cb;
 static retro_environment_t environ_cb;
 static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
-static int aspect_ratio_par = 1;
-static int last_aspect_ratio_par = -1;
+static int aspect_ratio_par;
+static int last_aspect_ratio_par;
 static float aspect_ratio_type;
 #ifdef PSP
 static bool use_overscan;
