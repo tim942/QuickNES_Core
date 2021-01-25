@@ -24,7 +24,8 @@
 #define CORE_VERSION "1.0-WIP"
 
 #define NES_4_3 (4.0 / 3.0)
-#define NES_PAR (width / height)
+#define NES_PAR (width * (8.0 / 7.0) / height)
+#define NES_PP (width / height)
 
 static Nes_Emu *emu;
 
@@ -34,7 +35,7 @@ static retro_audio_sample_batch_t audio_batch_cb;
 static retro_environment_t environ_cb;
 static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
-static bool aspect_ratio_par;
+static unsigned aspect_ratio_par;
 #ifdef PSP
 static bool use_overscan;
 #else
@@ -424,7 +425,14 @@ void retro_get_system_info(struct retro_system_info *info)
 
 float get_aspect_ratio(unsigned width, unsigned height)
 {
-   return (aspect_ratio_par ? NES_PAR : NES_4_3);
+  if (aspect_ratio_par == 1)
+    aspect_ratio_type = NES_PAR;
+  else if (aspect_ratio_par == 2)
+    aspect_ratio_type = NES_4_3;
+  else if (aspect_ratio_par == 3)
+    aspect_ratio_type = NES_PP;
+    
+  return aspect_ratio_type;
 }
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
@@ -635,12 +643,14 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      bool newval = (!strcmp(var.value, "PAR"));
-      if (newval != aspect_ratio_par)
-      {
-         aspect_ratio_par = newval;
-         video_changed = true;
-      }
+     if (!strcmp(var.value, "PAR"))
+       aspect_ratio_par = 1;
+     else if (!strcmp(var.value, "4:3"))
+       aspect_ratio_par = 2;
+     else if (!strcmp(var.value, "PP"))
+       aspect_ratio_par = 3;
+     else
+       aspect_ratio_par = 0;
    }
 
    var.key = "quicknes_up_down_allowed";
