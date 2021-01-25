@@ -643,6 +643,7 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
+     int newval = aspect_ratio_par;
      if (!strcmp(var.value, "PAR"))
        aspect_ratio_par = 1;
      else if (!strcmp(var.value, "4:3"))
@@ -651,6 +652,8 @@ static void check_variables(void)
        aspect_ratio_par = 3;
      else
        aspect_ratio_par = 0;
+     if aspect_ratio_par != newval
+         video_changed = true;
    }
 
    var.key = "quicknes_up_down_allowed";
