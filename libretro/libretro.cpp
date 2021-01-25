@@ -653,7 +653,7 @@ static void check_variables(void)
        aspect_ratio_par = 3;
      else
        aspect_ratio_par = 0;
-     if aspect_ratio_par != pre_aspect_ratio_par
+     if (aspect_ratio_par != pre_aspect_ratio_par)
          video_changed = true;
    }
 
