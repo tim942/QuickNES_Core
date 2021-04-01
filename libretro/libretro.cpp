@@ -25,7 +25,7 @@
 
 #define NES_4_3 (4.0 / 3.0)
 #define NES_PAR (width * (8.0 / 7.0) / height)
-#define NES_PP (width * (32.0 / 30.0) / height)
+#define NES_PP (width * (16.0 / 15.0) / height)
 
 static Nes_Emu *emu;
 
