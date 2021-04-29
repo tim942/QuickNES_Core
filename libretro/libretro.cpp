@@ -423,14 +423,14 @@ void retro_get_system_info(struct retro_system_info *info)
    info->valid_extensions = "nes"; // Anything is fine, we don't care.
 }
 
-float get_aspect_ratio(unsigned width, unsigned height)
+static float get_aspect_ratio(unsigned width, unsigned height)
 {
   if (aspect_ratio_par == 2)
     return NES_4_3;
   else if (aspect_ratio_par == 3)
     return NES_PP;
   else 
-    aspect_ratio_type = NES_PAR;
+    return NES_PAR;
 }
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
