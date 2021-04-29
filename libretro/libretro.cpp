@@ -36,8 +36,6 @@ static retro_environment_t environ_cb;
 static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
 static int aspect_ratio_par;
-static int last_aspect_ratio_par;
-static float aspect_ratio_type;
 #ifdef PSP
 static bool use_overscan;
 #else
@@ -427,14 +425,12 @@ void retro_get_system_info(struct retro_system_info *info)
 
 float get_aspect_ratio(unsigned width, unsigned height)
 {
-  if (aspect_ratio_par == 1) {
+  if (aspect_ratio_par == 2)
+    return NES_4_3;
+  else if (aspect_ratio_par == 3)
+    return NES_PP;
+  else 
     aspect_ratio_type = NES_PAR;
-  } else if (aspect_ratio_par == 2) {
-    aspect_ratio_type = NES_4_3;
-  } else if (aspect_ratio_par == 3) {
-    aspect_ratio_type = NES_PP;
-  }
-  return aspect_ratio_type;
 }
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
@@ -645,7 +641,7 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-     last_aspect_ratio_par = aspect_ratio_par;
+     unsigned oldval = aspect_ratio_par;
      if (!strcmp(var.value, "PAR")) {
        aspect_ratio_par = 1;
      } else if (!strcmp(var.value, "4:3")) {
@@ -653,7 +649,7 @@ static void check_variables(void)
      } else if (!strcmp(var.value, "PP")) {
        aspect_ratio_par = 3;
      }
-     if (aspect_ratio_par != last_aspect_ratio_par)
+     if (aspect_ratio_par != oldval)
          video_changed = true;
    }
 
